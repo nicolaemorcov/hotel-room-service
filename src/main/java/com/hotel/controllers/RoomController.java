@@ -1,8 +1,11 @@
 package com.hotel.controllers;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,13 +28,13 @@ public class RoomController {
     }
 
     @GetMapping(value = "/rooms")
-    public Room saveRoomToDb(){
+    public ResponseEntity saveRoomToDb(){
         RoomIdentifier roomIdentifier = new RoomIdentifier("1ab3", 7, 2, 4, RoomType.FAMILY);
         RoomFacilities roomFacilities = new RoomFacilities(Arrays.asList(RoomFeature.BALCONY, RoomFeature.FRIDGE, RoomFeature.TV));
         Room room = new Room(roomIdentifier, 48, "Large family room, up to 4 people.",
                 roomFacilities, RoomStatus.AVAILABLE);
         roomService.addRoom(room);
-        return room;
+        return ResponseEntity.status(HttpStatus.OK).body("Room Added"); // TODO for body we might consider displaying room data
     }
 
 }

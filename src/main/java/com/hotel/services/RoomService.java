@@ -15,4 +15,6 @@ public interface RoomService {
 
     public List<Room> findAllAvailableRooms();
 
-}
+    public List<Room> getAllRooms();
+
+    }
