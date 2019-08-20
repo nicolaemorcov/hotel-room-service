@@ -1,7 +1,10 @@
 package com.hotel.dto;
 
+import org.springframework.data.annotation.Id;
+
 public class Room {
 
+    @Id
     private final RoomIdentifier roomIdentifier;
 
     private final double roomPrice;
