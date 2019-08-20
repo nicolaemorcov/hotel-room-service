@@ -27,7 +27,7 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-    @GetMapping(value = "/rooms")
+    @GetMapping(value = "/add-room")
     public ResponseEntity saveRoomToDb(){
         RoomIdentifier roomIdentifier = new RoomIdentifier("1ab3", 7, 2, 4, RoomType.FAMILY);
         RoomFacilities roomFacilities = new RoomFacilities(Arrays.asList(RoomFeature.BALCONY, RoomFeature.FRIDGE, RoomFeature.TV));
