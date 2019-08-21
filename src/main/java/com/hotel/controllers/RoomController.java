@@ -1,5 +1,6 @@
 package com.hotel.controllers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,6 +21,8 @@ import com.hotel.services.RoomService;
 @RestController
 public class RoomController {
 
+    private static final String ROOM_FACILITIES_DELIMITER = "-";
+
     private RoomService roomService;
 
     @Autowired
@@ -27,11 +30,21 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-    @GetMapping(value = "/add-room")
-    public ResponseEntity saveRoomToDb(){
-        RoomIdentifier roomIdentifier = new RoomIdentifier("1ab3", 7, 2, 4, RoomType.FAMILY);
-        RoomFacilities roomFacilities = new RoomFacilities(Arrays.asList(RoomFeature.BALCONY, RoomFeature.FRIDGE, RoomFeature.TV));
-        Room room = new Room(roomIdentifier, 48, "Large family room, up to 4 people.",
+    //TODO perhaps we will use one object posted in request
+    @GetMapping(path = "/add-room", params = {"roomId", "doorNumber", "floorNumber", "size",
+            "roomType", "roomFacilitiesList", "roomPrice", "roomDescription"})
+    public ResponseEntity saveRoomToDb(String roomId, String doorNumber, String floorNumber, String size,
+                                       String roomType, String roomFacilitiesList, String price, String roomDescription){
+        int roomDoorNumber = Integer.parseInt(doorNumber);
+        int roomFloorNumber = Integer.parseInt(floorNumber);
+        int roomSize = Integer.parseInt(size);
+        int roomPrice = Integer.parseInt(price);
+        List<String> facilitiesList = Arrays.asList(roomFacilitiesList.split(ROOM_FACILITIES_DELIMITER));
+        List<RoomFeature> roomFeatures = new ArrayList<>();
+        facilitiesList.forEach(s -> roomFeatures.add(RoomFeature.valueOf(s)));
+        RoomIdentifier roomIdentifier = new RoomIdentifier(roomId, roomDoorNumber, roomFloorNumber, roomSize, RoomType.valueOf(roomType));
+        RoomFacilities roomFacilities = new RoomFacilities(roomFeatures);
+        Room room = new Room(roomIdentifier, roomPrice, roomDescription,
                 roomFacilities, RoomStatus.AVAILABLE);
         roomService.addRoom(room);
         return ResponseEntity.status(HttpStatus.OK).body("Room Added"); // TODO for body we might consider displaying room data
