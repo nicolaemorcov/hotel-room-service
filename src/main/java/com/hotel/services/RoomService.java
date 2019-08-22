@@ -9,7 +9,7 @@ public interface RoomService {
 
     void addRoom(Room room);
 
-    void deleteRoom(RoomIdentifier roomIdentifier);
+//    void deleteRoom(RoomIdentifier roomIdentifier);
 
     public Room findRoomByRoomId(String roomId);
 

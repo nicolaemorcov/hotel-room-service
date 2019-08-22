@@ -5,7 +5,8 @@ import org.springframework.data.annotation.Id;
 public class Room {
 
     @Id
-    private final RoomIdentifier roomIdentifier;
+    private final String id;
+//    private final RoomIdentifier roomIdentifier;
 
     private final double roomPrice;
 
@@ -15,17 +16,16 @@ public class Room {
 
     private final RoomStatus roomStatus;
 
-    public Room(RoomIdentifier roomIdentifier, double roomPrice, String roomDescription,
-                RoomFacilities roomFacilities, RoomStatus roomStatus) {
-        this.roomIdentifier = roomIdentifier;
+    public Room(String id, double roomPrice, String roomDescription, RoomFacilities roomFacilities, RoomStatus roomStatus) {
+        this.id = id;
         this.roomPrice = roomPrice;
         this.roomDescription = roomDescription;
         this.roomFacilities = roomFacilities;
         this.roomStatus = roomStatus;
     }
 
-    public RoomIdentifier getRoomIdentifier() {
-        return roomIdentifier;
+    public String getId() {
+        return id;
     }
 
     public double getRoomPrice() {
@@ -47,7 +47,7 @@ public class Room {
     @Override
     public String toString() {
         return "Room{" +
-                "roomIdentifier=" + roomIdentifier +
+                "id='" + id + '\'' +
                 ", roomPrice=" + roomPrice +
                 ", roomDescription='" + roomDescription + '\'' +
                 ", roomFacilities=" + roomFacilities +

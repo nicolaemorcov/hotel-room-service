@@ -2,6 +2,7 @@ package com.hotel.dto;
 
 public class RoomIdentifier {
 
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     private final String roomId;
 
     private final int roomDoorNumber;

@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RoomRepository extends MongoRepository<Room, RoomIdentifier> {
+public interface RoomRepository extends MongoRepository<Room, String> {
 
-    @Query("{'roomIdentifier.roomId' : ?0}")
+    @Query("{'roomId' : ?0}")
     Room findRoomByRoomId(String roomId);
 
     @Query("{'roomStatus' : ?0}")

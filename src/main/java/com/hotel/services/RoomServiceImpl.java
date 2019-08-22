@@ -29,10 +29,10 @@ public class RoomServiceImpl implements RoomService{
         return roomRepository.findAll();
     }
 
-    @Override
-    public void deleteRoom(RoomIdentifier roomIdentifier){
-        roomRepository.deleteById(roomIdentifier);
-    }
+//    @Override
+//    public void deleteRoom(RoomIdentifier roomIdentifier){
+//        roomRepository.deleteById(roomIdentifier);
+//    }
 
     @Override
     public Room findRoomByRoomId(String roomId){

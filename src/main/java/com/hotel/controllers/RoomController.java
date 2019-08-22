@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +20,7 @@ import com.hotel.dto.RoomType;
 import com.hotel.services.RoomService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class RoomController {
 
     private static final String ROOM_FACILITIES_DELIMITER = "-";
@@ -31,23 +33,26 @@ public class RoomController {
     }
 
     //TODO perhaps we will use one object posted in request
-    @GetMapping(path = "/add-room", params = {"roomId", "doorNumber", "floorNumber", "size",
-            "roomType", "roomFacilitiesList", "roomPrice", "roomDescription"})
-    public ResponseEntity saveRoomToDb(String roomId, String doorNumber, String floorNumber, String size,
-                                       String roomType, String roomFacilitiesList, String price, String roomDescription){
-        int roomDoorNumber = Integer.parseInt(doorNumber);
-        int roomFloorNumber = Integer.parseInt(floorNumber);
-        int roomSize = Integer.parseInt(size);
+    @GetMapping(path = "/add-room", params = {"roomId", "price", "roomFacilitiesList", "roomDescription"})
+    public ResponseEntity saveRoomToDb(String roomId, String price, String roomFacilitiesList, String roomDescription){
+//        int roomDoorNumber = Integer.parseInt(doorNumber);
+//        int roomFloorNumber = Integer.parseInt(floorNumber);
+//        int roomSize = Integer.parseInt(size);
         int roomPrice = Integer.parseInt(price);
         List<String> facilitiesList = Arrays.asList(roomFacilitiesList.split(ROOM_FACILITIES_DELIMITER));
         List<RoomFeature> roomFeatures = new ArrayList<>();
         facilitiesList.forEach(s -> roomFeatures.add(RoomFeature.valueOf(s)));
-        RoomIdentifier roomIdentifier = new RoomIdentifier(roomId, roomDoorNumber, roomFloorNumber, roomSize, RoomType.valueOf(roomType));
+//        RoomIdentifier roomIdentifier = new RoomIdentifier(roomId, roomDoorNumber, roomFloorNumber, roomSize, RoomType.valueOf(roomType));
         RoomFacilities roomFacilities = new RoomFacilities(roomFeatures);
-        Room room = new Room(roomIdentifier, roomPrice, roomDescription,
+        Room room = new Room(roomId, roomPrice, roomDescription,
                 roomFacilities, RoomStatus.AVAILABLE);
         roomService.addRoom(room);
         return ResponseEntity.status(HttpStatus.OK).body("Room Added"); // TODO for body we might consider displaying room data
+    }
+
+    @GetMapping(path = "/rooms")
+    public List<Room> getRooms(){
+        return roomService.getAllRooms();
     }
 
 }
